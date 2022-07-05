@@ -82,18 +82,18 @@ idx_train = idx_train[:int(args.label_rate * adj.shape[0])]
 if args.attack == 'no':
     perturbed_adj = adj
 
-if args.attack == 'random':
-    from deeprobust.graph.global_attack import Random
-    import random
-    random.seed(15)
-    attacker = Random()
-    n_perturbations = int(args.ptb_rate * (adj.sum()//2))
-    attacker.attack(adj, n_perturbations, type=args.r_type)
-    perturbed_adj = attacker.modified_adj
-    file_path = "./data/{}/{}_{}_adj_{}.npz".format(args.label_rate,args.dataset,args.attack,args.ptb_rate)
-    sp.save_npz(file_path,perturbed_adj.tocsr())
+# if args.attack == 'random':
+#     from deeprobust.graph.global_attack import Random
+#     import random
+#     random.seed(15)
+#     attacker = Random()
+#     n_perturbations = int(args.ptb_rate * (adj.sum()//2))
+#     attacker.attack(adj, n_perturbations, type=args.r_type)
+#     perturbed_adj = attacker.modified_adj
+#     file_path = "./data/{}/{}_{}_adj_{}.npz".format(args.label_rate,args.dataset,args.attack,args.ptb_rate)
+#     sp.save_npz(file_path,perturbed_adj.tocsr())
 
-if args.attack in ['meta','nettack']:
+if args.attack in ['meta','nettack','random']:
     perturbed_adj = get_PtbAdj(root="./data/{}".format(args.label_rate),
             name=args.dataset,
             attack_method=args.attack,
